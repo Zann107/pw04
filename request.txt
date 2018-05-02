@@ -1,0 +1,114 @@
+Requêtes très faciles :
+
+
+1.Afficher la liste des tables de la base de données.
+
+show tables;
+
+2.Afficher la description de la table “films”.
+
+DESCRIBE film;
+
+3.Afficher le titre des films (dans une colonne "titre film").
+
+SELECT titre FROM film;
+
+4.Afficher la liste des films ayant comme genre NULL.
+
+SELECT titre 
+FROM film WHERE id_genre = 'NULL';
+
+5.Afficher les 10 derniers films dont l’année de début d’affiche est 2000.
+
+SELECT titre 
+FROM film 
+where date_debut_affiche >= 2000 
+ORDER BY date_debut_affiche DESC
+LIMIT 10;
+
+
+Requêtes moins faciles :
+
+
+Afficher le titre des films qui ont comme id de genre 1 ou 2 et dont le titre commence par la lettre A. 
+
+
+
+select titre from film where titre like 'A%'
+and id_genre between 1 and 2;
+
+
+
+
+Afficher le nombre de places dans le cinéma (dans une colonne « nombre siege »).
+
+
+SELECT SUM(nbr_siege) AS nombre_siege
+FROM salle
+
+
+
+
+
+Afficher le nombre de places dans le cinéma pour chaque étage ATTENTION – On ne demande pas d’afficher les étages mais seulement le nombre de places.
+
+Select SUM(nbr_siege) AS etage_place
+from salle
+GROUP BY etage_salle
+
+
+Afficher le nom des salles dont le nombre de place est inférieure à 200.
+
+
+Select nom_salle
+from salle
+where nbr_siege < 200
+
+
+Afficher le titre (dans une colonne « titre_cool ») des films ayant dans leur titre la chaine (‘day’) et dont le genre est « sci-fi ». 
+Indice : Inutile de faire de jointure, regardez la correspondance de la table des genres pour y retrouver l’id correspondant.
+
+
+
+select titre as titre_cool
+from film 
+where titre 
+like '%day%'
+and id_genre= 2;
+
+
+
+
+
+
+Requêtes pas faciles : 
+
+
+Afficher le nombre d’abonnements proposés par le cinéma, ainsi que la moyenne du coût des abonnements, arrondie à l’unité (inférieur). Le nombre d’abonnements dans une colonne “nbr_abo” et la moyenne du coût des abonnements dans une colonne “avg abo”.
+
+
+select COUNT(*) as nbr_abo,FLOOR(AVG(prix)) as avg_abo 
+From abonnement
+
+
+
+Affiche le plus grand “id_film” dans une colonne (max id film) pour le genre ‘action’ et dont la date de sortie se trouve entre 1980 et 1999 (inclus).
+
+
+SELECT MAX(id_film) as "max id film"
+from film
+where id_genre= 8 and date_debut_affiche between 1980-01-01 and 1999-12-31
+
+
+Sélectionne tous les membres qui sont allés voir les films 2557 ou 2741. La requête devra afficher l'id du membre (id_membre) et la date du dernier film ( dans une colonne « last movie ») et sera ordonnée par date décroissante.
+
+
+
+select  id_membre,date_dernier_film as "last movie"
+from membre 
+where id_dernier_film = 2741 or 2557 
+order by id_membre DESC
+
+
+
+
